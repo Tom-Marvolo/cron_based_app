@@ -1,5 +1,9 @@
 package com.oe.spring.test.crontest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oe.spring.test.crontest.dao.entity.StudentEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,29 +14,27 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.util.UriBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class RestControllerTriggerTest {
 
     @Autowired
     protected WebApplicationContext webApplicationContext;
 
     private MockMvc mockMvc;
+    private ObjectMapper objectMapper;
 
     @Before
     public void setUp() {
+        objectMapper = new ObjectMapper();
         this.mockMvc = webAppContextSetup(webApplicationContext).build();
     }
 
@@ -44,8 +46,10 @@ public class RestControllerTriggerTest {
     @Test
     public void shouldGetIsFresherEqTrue() throws Exception {
         URI uri = UriComponentsBuilder.fromPath("/trigger").build().encode().toUri();
-        performCreateTriggerAction(uri)
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.isFresher").value(true));
+        ResultActions resultActions = performCreateTriggerAction(uri);
+        String responseBody = resultActions.andReturn().getResponse().getContentAsString();
+        StudentEntity studentEntity = objectMapper.readValue(responseBody, StudentEntity.class);
+        log.info("student entity received from restController: {}", studentEntity);
+        Assert.assertTrue(studentEntity.getIsFresher());
     }
 }

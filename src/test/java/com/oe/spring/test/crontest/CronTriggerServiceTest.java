@@ -2,6 +2,7 @@ package com.oe.spring.test.crontest;
 
 import com.oe.spring.test.crontest.cron.CronTriggerService;
 import com.oe.spring.test.crontest.dao.entity.StudentEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,7 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class CronTriggerServiceTest {
 
     @SpyBean
@@ -29,6 +31,7 @@ public class CronTriggerServiceTest {
         verify(cronTriggerService, atLeastOnce()).updateExistedStudent();
         // get the entity pulled within cron service execution
         StudentEntity studentEntity = cronTriggerService.getStudentEntity();
+        log.info("student entity received from cron: {}", studentEntity);
         // assert that transition field eq null even for saved entity
         Assert.assertNull(studentEntity.getIsFresher());
     }

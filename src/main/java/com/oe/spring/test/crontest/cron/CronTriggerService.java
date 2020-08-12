@@ -15,7 +15,7 @@ public class CronTriggerService {
     private final StudentService studentService;
     private StudentEntity studentEntity;
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 100000)
     public void updateExistedStudent() {
         studentEntity = studentService.updateExistedStudent(this.getClass().getSimpleName());
     }
