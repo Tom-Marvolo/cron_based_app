@@ -16,7 +16,7 @@ So the same service method  behaves differently if it's call from rest controlle
 #
 ### Enough words show me code 
 The app has two integration tests that proves odd behaviour of entity manager called within cron and rest controller.
-I would recommend to run them via Idea so you see the output logsgradle test -i
+I would recommend to run them via Idea or next gradle tasks
 ```
 gradle test --tests com.oe.spring.test.crontest.CronTriggerServiceTest 
 gradle test --tests com.oe.spring.test.crontest.RestControllerTriggerTest
