@@ -1,7 +1,13 @@
 # Getting Started
 
-### Reference Documentation
+### The issue: 
+When rest controller calls a service that updates and returns an entity from database with initialized transition field
+within this service - the returned entity has initialized transition filed.
 
+When the same service is called from cron-based service the returned entity has  transition filed eq `null`
+
+So the same service method  behaves differently if it's call from rest controller and if it's called cron service.
+#
 #### preparetion work
 
 
