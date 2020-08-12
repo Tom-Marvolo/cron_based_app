@@ -1,0 +1,14 @@
+[mysqld]
+auto_increment_offset = 3
+auto_increment_increment = 3
+binlog_format=row
+character-set-server    = 'utf8mb4'
+collation-server        = 'utf8mb4_general_ci'
+innodb_buffer_pool_size = 820M
+innodb-file-format      = Barracuda
+innodb-file-format-max  = Barracuda
+sql_mode = STRICT_TRANS_TABLES
+[mysqldump]
+default-character-set   = 'utf8mb4'
+[mysql]
+default-character-set   = 'utf8mb4'
